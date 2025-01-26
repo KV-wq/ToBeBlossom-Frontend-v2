@@ -1,59 +1,61 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Home, User, Tag, RussianRuble } from "lucide-react";
 
 const Menu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const menuItems = [
-    { title: "Главная", path: "/home" },
-    { title: "Аккаунт", path: "/profile" },
-    { title: "Промокоды", path: "/promocodes" },
-    { title: "Продажи", path: "/statistics" },
+    {
+      title: "Главная",
+      path: "/home",
+      icon: Home,
+    },
+    {
+      title: "Аккаунт",
+      path: "/profile",
+      icon: User,
+    },
+    {
+      title: "Промокоды",
+      path: "/promocodes",
+      icon: Tag,
+    },
+    {
+      title: "Продажи",
+      path: "/statistics",
+      icon: RussianRuble,
+    },
   ];
 
   return (
-    <div className="fixed top-12 right-4 z-50">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative w-8 h-8 focus:outline-none"
-      >
-        <span
-          className={`absolute block w-6 h-0.5 bg-black transform transition-all duration-300 ${
-            isOpen ? "rotate-45 translate-y-0" : "-translate-y-2"
-          }`}
-        ></span>
-        <span
-          className={`absolute block w-6 h-0.5 bg-black transform transition-all duration-300 ${
-            isOpen ? "opacity-0" : "opacity-100"
-          }`}
-        ></span>
-        <span
-          className={`absolute block w-6 h-0.5 bg-black transform transition-all duration-300 ${
-            isOpen ? "-rotate-45 translate-y-0" : "translate-y-2"
-          }`}
-        ></span>
-      </button>
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-20">
+      <div className="max-w-[600px] mx-auto flex justify-between px-6 py-2">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
 
-      <div
-        className={`absolute top-12 right-0 w-48 bg-white rounded-xl shadow-lg py-2 transform transition-all duration-300 ${
-          isOpen
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2 pointer-events-none"
-        }`}
-      >
-        {menuItems.map((item, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              navigate(item.path);
-              setIsOpen(false);
-            }}
-            className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 transition-colors"
-          >
-            {item.title}
-          </button>
-        ))}
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className="flex flex-col items-center gap-1"
+            >
+              <Icon
+                className={`w-6 h-6 transition-colors ${
+                  isActive ? "text-gray-900" : "text-gray-400"
+                }`}
+              />
+              <span
+                className={`text-xs transition-colors ${
+                  isActive ? "text-gray-900" : "text-gray-400"
+                }`}
+              >
+                {item.title}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -38,6 +38,7 @@ function App() {
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/add-personal" element={<AddPersonal />} />
         </Routes>
+        {showMenu && <div className="w-full h-[60px]" />}
       </main>
     </div>
   );
