@@ -11,10 +11,10 @@ const Button = ({ text, type = "button" }) => (
 );
 
 const Register = () => {
+  const navigate = useNavigate();
   const register = (e) => {
     e.preventDefault();
 
-    const navigate = useNavigate();
     navigate("/profile");
   };
 
