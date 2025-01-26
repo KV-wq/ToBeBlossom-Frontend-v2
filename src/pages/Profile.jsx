@@ -32,7 +32,7 @@ const Profile = () => {
       <div className="bg-white rounded-2xl p-4 mb-6">
         <div className="flex items-center">
           <img
-            src="/assets/avatar.jpg"
+            src={WebApp.initDataUnsafe.user.photo_url || "/assets/avatar.jpg"}
             className="w-16 h-16 rounded-full"
             alt="Avatar"
           />
@@ -42,10 +42,7 @@ const Profile = () => {
                 Иванов Иван Иванович
               </h1>
               <img
-                src={
-                  WebApp.initDataUnsafe.user.photo_url ||
-                  "/assets/Icons/verified.svg"
-                }
+                src="/assets/Icons/verified.svg"
                 className="w-7 h-7"
                 alt="Verified"
               />
