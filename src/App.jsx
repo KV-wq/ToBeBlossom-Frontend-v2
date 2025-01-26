@@ -19,10 +19,11 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+  const showMenu = !["/", "/verification", "/register"].includes(pathname);
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="container mx-auto px-4 py-8 relative">
-        <Menu />
+        {showMenu && <Menu />}
         <Routes>
           <Route path="/" element={<PhoneInput />} />
           <Route path="/verification" element={<Verification />} />
