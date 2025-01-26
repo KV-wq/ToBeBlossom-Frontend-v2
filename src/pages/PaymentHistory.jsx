@@ -158,7 +158,7 @@ const PaymentHistoryPage = () => {
         </select>
       </div>
 
-      <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-auto">
+      <div className="space-y-3 overflow-auto h-[480px]">
         {sortedWithdrawals.map((withdrawal) => (
           <div key={withdrawal.id} className="bg-white rounded-xl p-4">
             <div className="flex justify-between items-start">
@@ -173,7 +173,7 @@ const PaymentHistoryPage = () => {
                 </div>
               </div>
               <div className="text-right mb-1">
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900 mt-0.5">
                   {formatDate(withdrawal.date)}
                 </p>
                 <span
