@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import PaymentCard from "../components/PaymentCard";
 import MyData from "../components/MyData";
+import WebApp from "@twa-dev/sdk";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -41,7 +42,10 @@ const Profile = () => {
                 Иванов Иван Иванович
               </h1>
               <img
-                src="/assets/Icons/verified.svg"
+                src={
+                  WebApp.initDataUnsafe.user.photo_url ||
+                  "/assets/Icons/verified.svg"
+                }
                 className="w-7 h-7"
                 alt="Verified"
               />
