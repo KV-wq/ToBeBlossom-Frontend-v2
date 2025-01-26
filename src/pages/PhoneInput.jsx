@@ -43,7 +43,7 @@ const PhoneInput = () => {
       <form className="mt-16" onSubmit={submitForm}>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
-            <img src="src/assets/russia.svg" alt="flag" />
+            <img src="/assets/russia.svg" alt="flag" />
             <span className="text-gray-900 text-lg font-medium ml-2">+7</span>
           </div>
           <input

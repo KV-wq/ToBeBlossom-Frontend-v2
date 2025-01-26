@@ -27,19 +27,15 @@ const PaymentCard = ({ noOptions = false }) => {
       >
         {!noOptions && (
           <img
-            src="/src/assets/Icons/bin.svg"
+            src="/assets/Icons/bin.svg"
             className="size-5"
             onClick={() => setDeleteIsVisible(true)}
             alt="Delete"
           />
         )}
-        <img src="/src/assets/Icons/bank.svg" className="size-10" alt="Bank" />
+        <img src="/assets/Icons/bank.svg" className="size-10" alt="Bank" />
         {!noOptions && (
-          <img
-            src="/src/assets/Icons/pencil.svg"
-            className="size-5"
-            alt="Edit"
-          />
+          <img src="/assets/Icons/pencil.svg" className="size-5" alt="Edit" />
         )}
       </div>
 

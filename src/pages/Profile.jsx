@@ -19,19 +19,19 @@ const Profile = () => {
           className="p-2 hover:bg-gray-50 rounded-xl"
         >
           <img
-            src="/src/assets/Icons/arrow.svg"
+            src="/assets/Icons/arrow.svg"
             className="w-6 h-6 rotate-90"
             alt="Back"
           />
         </button>
-        <img src="/src/assets/logo.svg" height="30" width="225" alt="Logo" />
+        <img src="/assets/logo.svg" height="30" width="225" alt="Logo" />
       </div>
 
       {/* Profile Info */}
       <div className="bg-white rounded-2xl p-6 mb-6">
         <div className="flex items-center">
           <img
-            src="/src/assets/avatar.jpg"
+            src="/assets/avatar.jpg"
             className="w-16 h-16 rounded-full"
             alt="Avatar"
           />
@@ -41,7 +41,7 @@ const Profile = () => {
                 Иванов Иван Иванович
               </h1>
               <img
-                src="/src/assets/Icons/verified.svg"
+                src="/assets/Icons/verified.svg"
                 className="w-7 h-7"
                 alt="Verified"
               />
