@@ -93,9 +93,9 @@ const CodeVerification = () => {
           ))}
         </div>
 
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center">
           <button
-            className="w-full sm:w-auto sm:px-36 py-3 bg-black/85 text-white rounded-2xl disabled:opacity-50"
+            className="w-full sm:w-auto sm:px-36 py-3 bg-black/85 text-white rounded-2xl disabled:opacity-50 mb-4"
             disabled={code.length !== 4}
             onClick={() => navigate("/register")}
           >

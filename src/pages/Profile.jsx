@@ -14,17 +14,7 @@ const Profile = () => {
   return (
     <div className="max-w-2xl mx-auto p-2">
       {/* Header */}
-      <div className="flex items-center mb-8 justify-between">
-        <button
-          onClick={() => navigate("/home")}
-          className="p-2 hover:bg-gray-50 rounded-xl"
-        >
-          <img
-            src="/assets/Icons/arrow.svg"
-            className="w-6 h-6 rotate-90"
-            alt="Back"
-          />
-        </button>
+      <div className="flex items-center mb-8 justify-end">
         <img src="/assets/logo.svg" height="30" width="225" alt="Logo" />
       </div>
 
@@ -32,7 +22,9 @@ const Profile = () => {
       <div className="bg-white rounded-2xl p-4 mb-6">
         <div className="flex items-center">
           <img
-            src={WebApp.initDataUnsafe.user.photo_url || "/assets/avatar.jpg"}
+            src={
+              WebApp?.initDataUnsafe?.user?.photo_url || "/assets/avatar.jpg"
+            }
             className="w-16 h-16 rounded-full"
             alt="Avatar"
           />
@@ -50,6 +42,12 @@ const Profile = () => {
             <p className="text-sm text-gray-500 mt-1">Стилист</p>
           </div>
         </div>
+        <button
+          onClick={() => navigate("/home")}
+          className="w-full sm:w-auto sm:px-3 py-2 mt-5 bg-black/80 text-white rounded-2xl disabled:opacity-50"
+        >
+          Посмотреть статистику
+        </button>
       </div>
 
       {/* Earnings */}
@@ -65,7 +63,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="flex gap-4">
+        <div className="grid grid-rows-1 gap-4">
           <button
             className="w-full sm:w-auto sm:px-36 py-3 bg-white text-black border border-stone-600 rounded-2xl disabled:opacity-50"
             onClick={() => navigate("/payment-history")}
