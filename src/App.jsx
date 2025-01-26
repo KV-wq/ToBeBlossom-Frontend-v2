@@ -7,6 +7,10 @@ import Profile from "./pages/Profile";
 import Statistics from "./pages/Statistics";
 import Promocodes from "./pages/Promocodes";
 import AddPromocode from "./pages/AddPromocode";
+import PaymentHistory from "./pages/PaymentHistory";
+import PaymentOrder from "./pages/PaymentOrder";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import AddPersonal from "./pages/AddPersonal";
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/promocodes" element={<Promocodes />} />
           <Route path="/add-promocode" element={<AddPromocode />} />
+          <Route path="/payment-history" element={<PaymentHistory />} />
+          <Route path="/payment-order" element={<PaymentOrder />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/add-personal" element={<AddPersonal />} />
         </Routes>
       </main>
     </div>

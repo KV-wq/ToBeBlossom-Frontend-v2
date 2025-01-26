@@ -1,18 +1,6 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  @apply appearance-none w-9 h-9 bg-gray-900 rounded-full;
-}
-
-input[type="range"]::-moz-range-thumb {
-  @apply appearance-none w-9 h-9 bg-gray-900 rounded-full;
-}
-
-input[type="range"]::-ms-thumb {
-  @apply appearance-none w-9 h-9 bg-gray-900 rounded-full;
 }

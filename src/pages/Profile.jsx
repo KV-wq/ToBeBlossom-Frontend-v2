@@ -11,7 +11,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
+    <div className="max-w-2xl mx-auto p-2">
       {/* Header */}
       <div className="flex items-center mb-8 justify-between">
         <button
@@ -28,7 +28,7 @@ const Profile = () => {
       </div>
 
       {/* Profile Info */}
-      <div className="bg-white rounded-2xl p-6 mb-6">
+      <div className="bg-white rounded-2xl p-4 mb-6">
         <div className="flex items-center">
           <img
             src="/assets/avatar.jpg"
@@ -52,7 +52,7 @@ const Profile = () => {
       </div>
 
       {/* Earnings */}
-      <div className="bg-white rounded-2xl p-6 mb-6">
+      <div className="bg-white rounded-2xl p-4 mb-6">
         <div className="flex justify-between items-center mb-4">
           <div>
             <p className="text-sm text-gray-500">Доступно к выводу</p>
@@ -81,12 +81,12 @@ const Profile = () => {
       </div>
 
       {/* Payment Methods */}
-      <div className="bg-white rounded-2xl p-6 mb-8">
+      <div className="bg-white rounded-2xl p-4 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-medium text-gray-900">Способы вывода</h2>
           <button
             onClick={addPersonal}
-            className="w-full sm:w-auto sm:px-36 py-3 bg-white text-black border border-stone-600 rounded-2xl disabled:opacity-50"
+            className="w-5/12 sm:w-auto sm:px-36 py-2 bg-white text-black border border-stone-600 rounded-2xl disabled:opacity-50"
           >
             Добавить
           </button>

@@ -23,7 +23,7 @@ const Register = () => {
   }, []);
 
   return (
-    <div className="container min-h-screen pb-safe">
+    <div className="container min-h-screen px-2 py-4 pb-safe">
       <h2 className="text-4xl font-bold text-start">Создать аккаунт</h2>
       <p className="text-gray-500 mt-2 mb-8">Введите данные для регистрации</p>
 

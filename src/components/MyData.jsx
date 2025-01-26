@@ -27,7 +27,7 @@ const MyData = () => {
   };
 
   return (
-    <div className="container max-w-md mx-auto px-4 py-6">
+    <div className="container max-w-md mx-auto">
       <h2 className="text-3xl font-medium text-gray-900 mb-8">Мои данные</h2>
 
       <form onSubmit={updateData} className="space-y-6">
@@ -98,7 +98,7 @@ const MyData = () => {
                 key={type.id}
                 type="button"
                 onClick={() => setSelectedType(type.id)}
-                className={`py-2 rounded-xl text-sm font-medium transition-colors ${
+                className={`py-2 px-1 rounded-xl text-xs font-medium transition-colors ${
                   selectedType === type.id
                     ? "bg-gray-800 text-white"
                     : "bg-gray-100 text-gray-800 hover:bg-gray-200"

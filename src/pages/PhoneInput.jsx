@@ -29,7 +29,7 @@ const PhoneInput = () => {
   };
 
   return (
-    <div className="container max-w-2xl mx-auto px-4 py-8">
+    <div className="container max-w-2xl mx-auto px-4 py-6">
       <h2 className="text-4xl font-bold text-start leading-tight text-nowrap">
         Введите
         <br />

@@ -64,7 +64,7 @@ const CodeVerification = () => {
 
       <p className="text-gray-500 mt-2">Введите код из SMS-сообщения</p>
 
-      <div className="mt-16">
+      <div className="mt-11">
         <p className="text-center text-3xl font-semibold">+7 (000) 555-55-55</p>
 
         <div className="mt-4 text-center">

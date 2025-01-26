@@ -15,7 +15,7 @@ const Promocodes = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="max-w-2xl mx-auto px-2 py-4">
       <div className="flex items-center mb-6">
         <button
           onClick={() => navigate("/home")}

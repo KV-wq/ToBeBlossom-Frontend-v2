@@ -17,11 +17,7 @@ const PaymentCard = ({ noOptions = false }) => {
   const [deleteIsVisible, setDeleteIsVisible] = useState(false);
 
   return (
-    <div
-      className="bg-white border-2 border-black/10 p-3 rounded-lg text-black text-center text-xs relative"
-      data-aos={noOptions ? "" : "flip-left"}
-      data-aos-duration="500"
-    >
+    <div className="bg-white border-2 border-black/10 p-3 rounded-lg text-black text-center text-xs relative">
       <div
         className={`flex justify-between ${noOptions ? "!justify-center" : ""}`}
       >
