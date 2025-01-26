@@ -158,7 +158,7 @@ const PaymentHistoryPage = () => {
         </select>
       </div>
 
-      <div className="space-y-3 overflow-auto h-[480px]">
+      <div className="space-y-3 overflow-auto h-[500px]">
         {sortedWithdrawals.map((withdrawal) => (
           <div key={withdrawal.id} className="bg-white rounded-xl p-4">
             <div className="flex justify-between items-start">
