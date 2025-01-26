@@ -76,7 +76,7 @@ const CodeVerification = () => {
           )}
         </div>
 
-        <div className="flex justify-center gap-2 my-12 px-4">
+        <div className="flex justify-center my-12 px-4">
           {digits.map((digit, index) => (
             <input
               key={index}
@@ -86,7 +86,9 @@ const CodeVerification = () => {
               onChange={(e) => handleInput(e, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               ref={(el) => (inputRefs.current[index] = el)}
-              className="w-14 h-14 sm:w-16 sm:h-16 text-center text-lg border border-gray-300 rounded-lg focus:outline-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className={
+                "w-14 h-14 sm:w-16 sm:h-16 text-center text-lg border border-gray-300 rounded-lg focus:outline-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none mr-1 ml-1"
+              }
             />
           ))}
         </div>
