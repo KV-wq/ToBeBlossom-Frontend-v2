@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Button = ({ text, type = "button" }) => (
   <button
@@ -13,7 +14,8 @@ const Register = () => {
   const register = (e) => {
     e.preventDefault();
 
-    window.location.href = "/profile";
+    const navigate = useNavigate();
+    navigate("/profile");
   };
 
   useEffect(() => {
