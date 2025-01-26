@@ -135,7 +135,7 @@ const PaymentHistoryPage = () => {
 
   return (
     <div className="bg-gray-50 rounded-2xl p-2 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+      <div className="mb-8">
         <div>
           <h3 className="text-xl font-medium text-gray-900">История выводов</h3>
           <p className="text-sm text-gray-500 mt-1">
@@ -148,7 +148,7 @@ const PaymentHistoryPage = () => {
         <select
           value={selectedPeriod}
           onChange={(e) => setSelectedPeriod(e.target.value)}
-          className="bg-white border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-white border mt-3 border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           {periods.map((period) => (
             <option key={period.value} value={period.value}>
@@ -161,26 +161,23 @@ const PaymentHistoryPage = () => {
       <div className="space-y-4 max-h-[calc(100vh-200px)] overflow-auto">
         {sortedWithdrawals.map((withdrawal) => (
           <div key={withdrawal.id} className="bg-white rounded-xl p-4">
-            <div className="flex flex-col xs:flex-row justify-between items-start">
-              <div className="w-full xs:w-auto">
-                <p className="text-lg font-medium text-gray-900 text-center xs:text-left">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-lg font-medium text-gray-900">
                   {formatAmount(withdrawal.amount)}
                 </p>
-                <div className="flex justify-center xs:justify-start items-center mt-1">
+                <div className="flex items-center mt-1">
                   <span className="text-sm text-gray-500">
                     {withdrawal.account}
                   </span>
-                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
-                    {withdrawal.type === "individual" ? "ИП" : "Физлицо"}
-                  </span>
                 </div>
               </div>
-              <div className="w-full xs:w-auto text-center xs:text-right mt-2 xs:mt-0">
+              <div className="text-right mb-1">
                 <p className="text-sm font-medium text-gray-900">
                   {formatDate(withdrawal.date)}
                 </p>
                 <span
-                  className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
+                  className={`inline-block px-2 py-1 text-xs rounded-full mt-2 ${
                     statusStyles[withdrawal.status]
                   }`}
                 >
@@ -188,6 +185,9 @@ const PaymentHistoryPage = () => {
                 </span>
               </div>
             </div>
+            <span className="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
+              {withdrawal.type === "individual" ? "ИП" : "Физлицо"}
+            </span>
           </div>
         ))}
       </div>

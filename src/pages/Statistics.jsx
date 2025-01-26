@@ -63,7 +63,7 @@ const Statistics = () => {
   return (
     <div className="max-w-2xl mx-auto p-2">
       {/* Header */}
-      <div className="flex items-center mb-6 mt-3">
+      <div className="flex items-center mb-6">
         <button
           onClick={() => navigate("/home")}
           className="p-2 hover:bg-gray-50 rounded-xl"

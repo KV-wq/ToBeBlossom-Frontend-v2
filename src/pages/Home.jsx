@@ -64,7 +64,7 @@ const HomePage = () => {
     <div className="max-w-xl mx-auto p-2 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="flex justify-between items-start mb-5 mt-3">
-        <img src="/assets/logo.svg" alt="Logo" className="h-8 w-full" />
+        <img src="/assets/logo.svg" alt="Logo" width="225" height="30" />
       </div>
 
       {/* User Info */}

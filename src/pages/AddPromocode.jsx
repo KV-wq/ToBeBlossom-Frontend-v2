@@ -31,6 +31,20 @@ const AddPromocode = () => {
     });
   };
 
+  function generate(length = 8) {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let promoCode = "";
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      promoCode += characters.charAt(randomIndex);
+    }
+    return promoCode;
+  }
+
+  const generatePromoCode = () => {
+    setPromoName(generate().toUpperCase());
+  };
+
   const back = () => {
     navigate(-1);
   };
@@ -39,16 +53,20 @@ const AddPromocode = () => {
     <div className="container max-w-md mx-auto p-4">
       <h2 className="text-2xl font-bold">Создать промокод</h2>
 
-      <div className="flex mt-7">
+      <div className=" mt-7">
         <input
           type="text"
           placeholder="Название"
           value={promoName}
+          maxLength={8}
           onChange={(e) => setPromoName(e.target.value)}
           className="bg-gray-50 uppercase font-semibold border mr-3 p-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full h-11 mb-2 text-center"
         />
-        <button className="w-24 h-11 bg-lime-300 rounded-xl transition-all active:scale-95 active:translate-y-1 font-semibold">
-          ОК
+        <button
+          onClick={generatePromoCode}
+          className="w-full h-11 bg-lime-300 rounded-xl transition-all active:scale-95 active:translate-y-1 font-semibold"
+        >
+          Сгенерировать
         </button>
       </div>
 

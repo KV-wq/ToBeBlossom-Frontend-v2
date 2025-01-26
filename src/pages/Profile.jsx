@@ -12,9 +12,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-2">
+    <div className="max-w-2xl mx-auto p-2 pt-5">
       {/* Header */}
-      <div className="flex items-center mb-8 justify-end">
+      <div className="flex mb-8 justify-start">
         <img src="/assets/logo.svg" height="30" width="225" alt="Logo" />
       </div>
 
@@ -59,7 +59,7 @@ const Profile = () => {
           </div>
           <div className="text-right">
             <p className="text-sm text-gray-500">Скоро поступит</p>
-            <p className="text-lg font-medium text-gray-900 mt-1">23 456 ₽</p>
+            <p className="text-2xl font-medium text-gray-900 mt-1">23 456 ₽</p>
           </div>
         </div>
 
