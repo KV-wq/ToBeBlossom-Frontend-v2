@@ -75,7 +75,7 @@ const AddPromocode = () => {
       </div>
 
       <input
-        type="number"
+        type="date"
         placeholder="Дата лимита действия"
         value={limitDate}
         onChange={(e) => setLimitDate(e.target.value)}
