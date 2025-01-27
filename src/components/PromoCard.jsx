@@ -51,7 +51,7 @@ const PromoCard = ({ promocode }) => {
     } catch (error) {
       console.error("Error updating notes:", error);
     }
-  }, 2000);
+  }, 500);
 
   // Расчет конверсии
   const conversionRate =
