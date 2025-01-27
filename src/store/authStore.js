@@ -1,4 +1,3 @@
-// src/store/authStore.js
 import { create } from "zustand";
 import WebApp from "@twa-dev/sdk";
 import api from "../api/axios";
