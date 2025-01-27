@@ -9,9 +9,6 @@ function RootComponent() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
-    WebApp.ready();
-    WebApp.expand();
-
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
     }, 1000);
@@ -25,6 +22,9 @@ function RootComponent() {
 
   return <App />;
 }
+
+WebApp.ready();
+WebApp.expand();
 
 const root = createRoot(document.getElementById("root"));
 root.render(
