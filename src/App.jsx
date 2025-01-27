@@ -33,7 +33,7 @@ function App() {
 
   setTimeout(() => {
     setLoader(false);
-  }, 1000);
+  }, 500);
 
   const showMenu = !["/", "/verification", "/register"].includes(pathname);
 
