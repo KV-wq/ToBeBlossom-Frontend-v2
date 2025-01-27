@@ -1,80 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePromocodeStore } from "../store/promocodeStore";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { debounce } from "lodash";
+import { Check } from "lucide-react";
 
 const PromoCard = ({ promocode }) => {
   const [showCopied, setShowCopied] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [notes, setNotes] = useState(promocode.notes || "");
+  const [isSaving, setIsSaving] = useState(false);
+  const [showSaved, setShowSaved] = useState(false);
   const updatePromocode = usePromocodeStore((state) => state.updatePromocode);
 
-  const { _id, code, rewards, status, statistics } = promocode;
+  useEffect(() => {
+    setNotes(promocode.notes || "");
+  }, [promocode.notes]);
 
   const copyPromoCode = () => {
-    navigator.clipboard.writeText(code);
+    navigator.clipboard.writeText(promocode.code);
     setShowCopied(true);
     setTimeout(() => {
       setShowCopied(false);
     }, 1500);
   };
 
-  const toggleActive = async () => {
+  const debouncedSave = debounce(async (newNotes) => {
     try {
-      setLoading(true);
-      await updatePromocode(_id, {
-        status: {
-          ...status,
-          isActive: !status.isActive,
-        },
-      });
-    } catch (error) {
-      console.error("Error toggling promocode status:", error);
-      // Здесь можно добавить отображение ошибки пользователю
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Форматирование чисел и дат
-  const formatNumber = (num) => new Intl.NumberFormat("ru-RU").format(num);
-  const formatDate = (date) =>
-    format(new Date(date), "d MMM yyyy", { locale: ru });
-
-  const handleNotesUpdate = async (newNotes) => {
-    try {
+      setIsSaving(true);
       await updatePromocode(promocode._id, {
         ...promocode,
         notes: newNotes,
       });
+      setShowSaved(true);
+      setTimeout(() => setShowSaved(false), 1500);
     } catch (error) {
       console.error("Error updating notes:", error);
+    } finally {
+      setIsSaving(false);
     }
+  }, 1000);
+
+  // Очистка debounce при размонтировании
+  useEffect(() => {
+    return () => {
+      debouncedSave.cancel();
+    };
+  }, [debouncedSave]);
+
+  const handleNotesChange = (e) => {
+    const newNotes = e.target.value;
+    setNotes(newNotes);
+    debouncedSave(newNotes);
   };
 
-  // Расчет конверсии
-  const conversionRate =
-    statistics.usageCount > 0
-      ? Math.round((statistics.usageCount / 100) * 100)
-      : 0;
-
-  // Расчет среднего чека
-  const averageCheck =
-    statistics.usageCount > 0
-      ? Math.round(statistics.totalSales / statistics.usageCount)
-      : 0;
+  const toggleActive = async () => {
+    try {
+      await updatePromocode(promocode._id, {
+        ...promocode,
+        status: {
+          ...promocode.status,
+          isActive: !promocode.status.isActive,
+        },
+      });
+    } catch (error) {
+      console.error("Error toggling status:", error);
+    }
+  };
 
   return (
     <div className="bg-white rounded-2xl p-4 relative">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <span className="text-lg font-medium text-gray-900">{code}</span>
+          <span className="text-lg font-medium text-gray-900">
+            {promocode.code}
+          </span>
           <p className="text-sm text-gray-500 mt-0.5">
-            от {formatDate(status.validFrom)}
+            от {new Date(promocode.status.validFrom).toLocaleDateString()}
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            Всего заказов: {statistics.usageCount} • Выкуплено:{" "}
-            {statistics.usageCount} <br />
-            Начислено: {formatNumber(statistics.totalRewards)} ₽
+            Всего заказов: {promocode.statistics.usageCount} • Выкуплено:{" "}
+            {promocode.statistics.usageCount} <br />
+            Начислено: {promocode.statistics.totalRewards.toLocaleString()} ₽
           </p>
         </div>
         <div className="relative">
@@ -99,16 +103,26 @@ const PromoCard = ({ promocode }) => {
         <div className="bg-gray-50 rounded-xl p-3">
           <p className="text-sm text-gray-500">Ваш доход</p>
           <p className="text-lg font-medium text-gray-900">
-            {rewards.stylist}%
+            {promocode.rewards.stylist}%
           </p>
           <p className="text-xs text-gray-500">
-            Средний чек: {formatNumber(averageCheck)} ₽
+            Средний чек:{" "}
+            {(
+              promocode.statistics.totalSales /
+              (promocode.statistics.usageCount || 1)
+            ).toLocaleString()}{" "}
+            ₽
           </p>
         </div>
         <div className="bg-gray-50 rounded-xl p-3">
           <p className="text-sm text-gray-500">Скидка клиенту</p>
-          <p className="text-lg font-medium text-gray-900">{rewards.client}%</p>
-          <p className="text-xs text-gray-500">Конверсия: {conversionRate}%</p>
+          <p className="text-lg font-medium text-gray-900">
+            {promocode.rewards.client}%
+          </p>
+          <p className="text-xs text-gray-500">
+            Конверсия:{" "}
+            {Math.round((promocode.statistics.usageCount / 100) * 100)}%
+          </p>
         </div>
       </div>
 
@@ -116,31 +130,42 @@ const PromoCard = ({ promocode }) => {
         <input
           type="text"
           readOnly
-          value={`Действует до ${formatDate(status.validUntil)}`}
+          value={`Действует до ${new Date(
+            promocode.status.validUntil
+          ).toLocaleDateString()}`}
           className="w-full px-3 py-2 bg-gray-50 text-sm text-center rounded-xl"
         />
-        <input
-          type="text"
-          value={promocode.notes || ""}
-          onChange={(e) => handleNotesUpdate(e.target.value)}
-          placeholder="Заметки для себя"
-          className="w-full px-3 py-2 bg-gray-50 text-sm text-center rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Заметки для себя"
+            value={notes}
+            onChange={handleNotesChange}
+            maxLength={200}
+            className="w-full px-3 py-2 bg-gray-50 text-sm text-center rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          {(isSaving || showSaved) && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              {isSaving ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-500 border-t-transparent" />
+              ) : (
+                showSaved && <Check className="h-4 w-4 text-green-500" />
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="pt-4 border-t border-gray-100">
         <button
           onClick={toggleActive}
-          disabled={loading}
           className={`w-full py-2 px-4 rounded-xl text-sm font-medium transition-colors ${
-            status.isActive
+            promocode.status.isActive
               ? "bg-green-100 text-green-700 hover:bg-green-200"
               : "bg-red-100 text-red-700 hover:bg-red-200"
-          } ${loading ? "opacity-75 cursor-not-allowed" : ""}`}
+          }`}
         >
-          {loading
-            ? "Обновление..."
-            : status.isActive
+          {promocode.status.isActive
             ? "Промокод активен"
             : "Промокод не активен"}
         </button>
