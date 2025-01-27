@@ -34,8 +34,6 @@ export const useAuthStore = create((set) => ({
           const { data } = await api.get("/auth/me");
           const telegramUser = WebApp.initDataUnsafe.user;
 
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-
           set({
             user: data.user,
             phone: data.user.phone,

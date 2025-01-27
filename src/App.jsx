@@ -12,14 +12,16 @@ import PaymentOrder from "./pages/PaymentOrder";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import AddPersonal from "./pages/AddPersonal";
 import Menu from "./components/Menu";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuthStore } from "./store/authStore";
+import Loader from "./components/Loader";
 
 function App() {
   const { pathname } = useLocation();
   const initialize = useAuthStore((state) => state.initialize);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,6 +30,10 @@ function App() {
   useEffect(() => {
     initialize();
   }, [initialize]);
+
+  setTimeout(() => {
+    setLoader(false);
+  }, 1000);
 
   const showMenu = !["/", "/verification", "/register"].includes(pathname);
 
@@ -40,6 +46,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {loader && <Loader />}
       <main className="container mx-auto px-4 py-8 relative">
         {showMenu && <Menu />}
         <Routes>
