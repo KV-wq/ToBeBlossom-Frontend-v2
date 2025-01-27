@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { WebApp } from "@twa-dev/sdk";
+import WebApp from "@twa-dev/sdk";
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -15,7 +15,6 @@ export const useAuthStore = create((set) => ({
 
   initialize: async () => {
     try {
-      WebApp.ready();
       const token = localStorage.getItem("token");
       if (token) {
         const telegramUser = WebApp.initDataUnsafe.user;
