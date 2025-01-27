@@ -35,7 +35,7 @@ function App() {
     isAuthenticated &&
     ["/", "/verification", "/register"].includes(pathname)
   ) {
-    return console.log(pathname);
+    return <Navigate to="/home" replace />;
   }
 
   return (
