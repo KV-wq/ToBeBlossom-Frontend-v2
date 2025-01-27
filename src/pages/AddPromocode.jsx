@@ -75,7 +75,7 @@ const AddPromocode = () => {
     }
   };
 
-  function generate(length = 10) {
+  function generate(length = 6) {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let promoCode = "";
     for (let i = 0; i < length; i++) {

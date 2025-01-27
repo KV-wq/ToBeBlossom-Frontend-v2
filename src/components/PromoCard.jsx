@@ -38,7 +38,7 @@ const PromoCard = ({ promocode }) => {
   // Форматирование чисел и дат
   const formatNumber = (num) => new Intl.NumberFormat("ru-RU").format(num);
   const formatDate = (date) =>
-    format(new Date(date), "d MMM yy", { locale: ru });
+    format(new Date(date), "d MMM yyyy", { locale: ru });
 
   const handleNotesUpdate = async (newNotes) => {
     try {

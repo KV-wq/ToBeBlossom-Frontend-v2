@@ -104,7 +104,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <MyData />
+      {/* <MyData /> */}
     </div>
   );
 };
