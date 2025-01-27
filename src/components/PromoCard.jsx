@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePromocodeStore } from "../store/promocodeStore";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import _ from "lodash";
+import { Check } from "lucide-react";
 
 const PromoCard = ({ promocode }) => {
   const [showCopied, setShowCopied] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notes, setNotes] = useState(promocode.notes || "");
+  const [isNoteChanged, setIsNoteChanged] = useState(false);
   const updatePromocode = usePromocodeStore((state) => state.updatePromocode);
 
   const { _id, code, rewards, status, statistics } = promocode;
+
+  useEffect(() => {
+    setNotes(promocode.notes || "");
+    setIsNoteChanged(false);
+  }, [promocode.notes]);
 
   const copyPromoCode = () => {
     navigator.clipboard.writeText(code);
@@ -31,35 +37,38 @@ const PromoCard = ({ promocode }) => {
       });
     } catch (error) {
       console.error("Error toggling promocode status:", error);
-      // Здесь можно добавить отображение ошибки пользователю
     } finally {
       setLoading(false);
     }
   };
 
-  // Форматирование чисел и дат
+  const handleNotesSave = async () => {
+    try {
+      await updatePromocode(_id, {
+        ...promocode,
+        notes: notes,
+      });
+      setIsNoteChanged(false);
+    } catch (error) {
+      console.error("Error updating notes:", error);
+    }
+  };
+
+  const handleNotesChange = (e) => {
+    const newNotes = e.target.value;
+    setNotes(newNotes);
+    setIsNoteChanged(newNotes !== (promocode.notes || ""));
+  };
+
   const formatNumber = (num) => new Intl.NumberFormat("ru-RU").format(num);
   const formatDate = (date) =>
     format(new Date(date), "d MMM yyyy", { locale: ru });
 
-  const handleNotesUpdate = _.debounce(async (newNotes) => {
-    try {
-      await updatePromocode(promocode._id, {
-        ...promocode,
-        notes: newNotes,
-      });
-    } catch (error) {
-      console.error("Error updating notes:", error);
-    }
-  }, 500);
-
-  // Расчет конверсии
   const conversionRate =
     statistics.usageCount > 0
       ? Math.round((statistics.usageCount / 100) * 100)
       : 0;
 
-  // Расчет среднего чека
   const averageCheck =
     statistics.usageCount > 0
       ? Math.round(statistics.totalSales / statistics.usageCount)
@@ -121,16 +130,23 @@ const PromoCard = ({ promocode }) => {
           value={`Действует до ${formatDate(status.validUntil)}`}
           className="w-full px-3 py-2 bg-gray-50 text-sm text-center rounded-xl"
         />
-        <input
-          type="text"
-          value={notes}
-          onChange={(e) => {
-            setNotes(e.target.value);
-            handleNotesUpdate(e.target.value);
-          }}
-          placeholder="Заметки для себя"
-          className="w-full px-3 py-2 bg-gray-50 text-sm text-center rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            value={notes}
+            onChange={handleNotesChange}
+            placeholder="Заметки для себя"
+            className="w-full px-3 py-2 bg-gray-50 text-sm text-center rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
+          />
+          {isNoteChanged && (
+            <button
+              onClick={handleNotesSave}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-green-500 hover:text-green-700"
+            >
+              <Check size={20} />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="pt-4 border-t border-gray-100">
