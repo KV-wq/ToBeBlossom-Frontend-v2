@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../services/authService";
 
 const PhoneInput = () => {
   const [formattedNumber, setFormattedNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleInput = (event) => {
+    setError(""); // Сбрасываем ошибку при вводе
     let value = event.target.value.replace(/\D/g, "");
     if (value.length > 10) value = value.substring(0, 10);
     setFormattedNumber(formatNumber(value));
@@ -23,9 +27,34 @@ const PhoneInput = () => {
     )}-${value.slice(8)}`;
   };
 
-  const submitForm = (e) => {
+  const getUnformattedNumber = (formatted) => {
+    // Преобразуем в формат +7XXXXXXXXXX
+    return "+7" + formatted.replace(/\D/g, "");
+  };
+
+  const submitForm = async (e) => {
     e.preventDefault();
-    navigate("/verification");
+    setLoading(true);
+    setError("");
+
+    try {
+      const phoneNumber = getUnformattedNumber(formattedNumber);
+      const response = await authService.sendVerificationCode(phoneNumber);
+
+      // Если успешно, переходим на страницу верификации
+      navigate("/verification", {
+        state: {
+          phone: phoneNumber,
+          expiresAt: response.expiresAt,
+        },
+      });
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Произошла ошибка. Попробуйте позже"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,6 +68,8 @@ const PhoneInput = () => {
       <p className="text-gray-500 mt-2 mb-8">
         Введите номер в указанном формате
       </p>
+
+      {error && <div className="text-red-500 text-sm">{error}</div>}
 
       <form className="mt-16" onSubmit={submitForm}>
         <div className="relative">
@@ -55,14 +86,15 @@ const PhoneInput = () => {
             placeholder="(000) 555-55-55"
             pattern="^\(\d{3}\) \d{3}-\d{2}-\d{2}$"
             required
+            disabled={loading}
           />
         </div>
         <button
           type="submit"
-          disabled={formattedNumber.length !== 15}
+          disabled={formattedNumber.length !== 15 || loading}
           className="mt-5 w-full bg-black/90 text-white py-3 px-4 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Продолжить
+          {loading ? "Отправка..." : "Продолжить"}
         </button>
       </form>
     </div>

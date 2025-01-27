@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "KonstantinV",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,11 +12,13 @@
   },
   "dependencies": {
     "@twa-dev/sdk": "^6.9.1",
+    "axios": "^1.7.9",
     "lucide-react": "^0.474.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.3",
-    "recharts": "^2.15.0"
+    "recharts": "^2.15.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

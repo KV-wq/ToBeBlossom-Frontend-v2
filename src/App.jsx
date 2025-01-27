@@ -13,12 +13,18 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import AddPersonal from "./pages/AddPersonal";
 import Menu from "./components/Menu";
 import { useEffect } from "react";
+import PrivateRoute from "./components/PrivateRoute";
+import { useAuthStore } from "./store/authStore";
 
 function App() {
   const { pathname } = useLocation();
+  const initialize = useAuthStore((state) => state.initialize);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
   const showMenu = !["/", "/verification", "/register"].includes(pathname);
   return (
     <div className="min-h-screen bg-gray-50">
@@ -28,15 +34,17 @@ function App() {
           <Route path="/" element={<PhoneInput />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/promocodes" element={<Promocodes />} />
-          <Route path="/add-promocode" element={<AddPromocode />} />
-          <Route path="/payment-history" element={<PaymentHistory />} />
-          <Route path="/payment-order" element={<PaymentOrder />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/add-personal" element={<AddPersonal />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/statistics" element={<Statistics />} />
+            <Route path="/promocodes" element={<Promocodes />} />
+            <Route path="/add-promocode" element={<AddPromocode />} />
+            <Route path="/payment-history" element={<PaymentHistory />} />
+            <Route path="/payment-order" element={<PaymentOrder />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/add-personal" element={<AddPersonal />} />
+          </Route>
         </Routes>
         {showMenu && <div className="w-full h-[60px]" />}
       </main>
