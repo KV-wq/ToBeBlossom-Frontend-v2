@@ -2,9 +2,12 @@ import api from "../api/axios";
 
 export const promocodeService = {
   // Получение списка промокодов
-  getPromocodes: async (params = {}) => {
+  getPromocodes: async (params = { page: 1, limit: 100, status: "all" }) => {
     try {
-      const { data } = await api.get("/promocodes", { params });
+      const { data } = await api.get("/promocodes", {
+        params,
+      });
+
       return data;
     } catch (error) {
       throw error.response?.data || error;

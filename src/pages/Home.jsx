@@ -18,11 +18,12 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const salesData = [
+    { name: "Сентябрь", sales: 0 },
+    { name: "Октябрь", sales: 0 },
+    { name: "Ноябрь", sales: 0 },
+    { name: "Декабрь", sales: 0 },
     { name: "Январь", sales: 0 },
-    { name: "Февраль", sales: 0 },
-    { name: "Март", sales: 0 },
-    { name: "Апрель", sales: 0 },
-    { name: "Май", sales: 0 },
+    // { name: "Февраль", sales: 0 },
   ];
 
   const stats = {

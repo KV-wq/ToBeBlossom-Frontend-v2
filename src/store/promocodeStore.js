@@ -11,7 +11,7 @@ export const usePromocodeStore = create((set, get) => ({
   error: null,
   pagination: {
     page: 1,
-    limit: 10,
+    limit: 100,
     total: 0,
     pages: 0,
   },
@@ -21,7 +21,7 @@ export const usePromocodeStore = create((set, get) => ({
   setError: (error) => set({ error }),
 
   // Получение списка промокодов
-  fetchPromocodes: async (params = {}) => {
+  fetchPromocodes: async (params = { page: 1, limit: 100, status: "all" }) => {
     try {
       set({ loading: true, error: null });
       const response = await promocodeService.getPromocodes(params);
