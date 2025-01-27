@@ -35,7 +35,7 @@ function App() {
     isAuthenticated &&
     ["/", "/verification", "/register"].includes(pathname)
   ) {
-    return <Route path="/home" element={<Home />} />;
+    return console.log(pathname);
   }
 
   return (
