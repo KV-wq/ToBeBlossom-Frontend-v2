@@ -3,32 +3,33 @@ import WebApp from "@twa-dev/sdk";
 
 export const useAuthStore = create((set) => ({
   user: null,
+  phone: null,
   isAuthenticated: false,
-  loading: true,
+  loading: false,
+
+  setPhone: (phone) => set({ phone }),
 
   setUser: (user) =>
     set({
       user,
       isAuthenticated: !!user,
-      loading: false,
     }),
+
+  setLoading: (loading) => set({ loading }),
 
   initialize: async () => {
     try {
+      WebApp.ready();
       const token = localStorage.getItem("token");
       if (token) {
         const telegramUser = WebApp.initDataUnsafe.user;
         set({
           user: telegramUser,
           isAuthenticated: true,
-          loading: false,
         });
-      } else {
-        set({ loading: false });
       }
     } catch (error) {
       console.error("Initialization error:", error);
-      set({ loading: false });
     }
   },
 
@@ -36,6 +37,7 @@ export const useAuthStore = create((set) => ({
     localStorage.removeItem("token");
     set({
       user: null,
+      phone: null,
       isAuthenticated: false,
     });
   },

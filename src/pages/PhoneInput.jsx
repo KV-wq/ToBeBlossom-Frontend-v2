@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authService";
+import { useAuthStore } from "../store/authStore";
 
 const PhoneInput = () => {
   const [formattedNumber, setFormattedNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const setPhone = useAuthStore((state) => state.setPhone);
 
   const handleInput = (event) => {
-    setError(""); // Сбрасываем ошибку при вводе
+    setError("");
     let value = event.target.value.replace(/\D/g, "");
     if (value.length > 10) value = value.substring(0, 10);
     setFormattedNumber(formatNumber(value));
@@ -28,7 +30,6 @@ const PhoneInput = () => {
   };
 
   const getUnformattedNumber = (formatted) => {
-    // Преобразуем в формат +7XXXXXXXXXX
     return "+7" + formatted.replace(/\D/g, "");
   };
 
@@ -39,15 +40,9 @@ const PhoneInput = () => {
 
     try {
       const phoneNumber = getUnformattedNumber(formattedNumber);
-      const response = await authService.sendVerificationCode(phoneNumber);
-
-      // Если успешно, переходим на страницу верификации
-      navigate("/verification", {
-        state: {
-          phone: phoneNumber,
-          expiresAt: response.expiresAt,
-        },
-      });
+      await authService.sendVerificationCode(phoneNumber);
+      setPhone(phoneNumber);
+      navigate("/verification");
     } catch (err) {
       setError(
         err.response?.data?.message || "Произошла ошибка. Попробуйте позже"
@@ -69,7 +64,7 @@ const PhoneInput = () => {
         Введите номер в указанном формате
       </p>
 
-      {error && <div className="text-red-500 text-sm">{error}</div>}
+      {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
       <form className="mt-16" onSubmit={submitForm}>
         <div className="relative">

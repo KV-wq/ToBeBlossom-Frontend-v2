@@ -1,22 +1,36 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "../services/authService";
+import { useAuthStore } from "../store/authStore";
 
 const CodeVerification = () => {
   const [timerValue, setTimerValue] = useState(45);
   const [digits, setDigits] = useState(["", "", "", ""]);
   const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const inputRefs = useRef([]);
   const navigate = useNavigate();
 
-  const adjustViewport = () => {
-    const viewportMeta = document.querySelector("meta[name=viewport]");
-    viewportMeta?.setAttribute(
-      "content",
-      `width=device-width, initial-scale=1, maximum-scale=1, height=${window.innerHeight}`
-    );
+  const phone = useAuthStore((state) => state.phone);
+
+  useEffect(() => {
+    if (!phone) {
+      navigate("/", { replace: true });
+    }
+  }, [phone, navigate]);
+
+  const formatPhoneNumber = (phone) => {
+    if (!phone) return "";
+    const numbers = phone.replace(/\D/g, "").slice(-10);
+    return `+7 (${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(
+      6,
+      8
+    )}-${numbers.slice(8)}`;
   };
 
   const handleInput = (event, index) => {
+    setError("");
     let value = event.target.value.replace(/[^0-9]/g, "").substring(0, 1);
     const newDigits = [...digits];
     newDigits[index] = value;
@@ -34,6 +48,44 @@ const CodeVerification = () => {
     }
   };
 
+  const resendCode = async () => {
+    if (timerValue > 0) return;
+
+    setLoading(true);
+    setError("");
+    try {
+      await authService.sendVerificationCode(phone);
+      setTimerValue(45);
+      setDigits(["", "", "", ""]);
+      setCode("");
+    } catch (err) {
+      setError(err.response?.data?.message || "Ошибка отправки кода");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyCode = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await authService.verifyCode(phone, code);
+
+      if (response.isNewUser) {
+        navigate("/register");
+      } else {
+        navigate("/home");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Неверный код");
+      setDigits(["", "", "", ""]);
+      setCode("");
+      inputRefs.current[0]?.focus();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimerValue((prev) => {
@@ -45,15 +97,14 @@ const CodeVerification = () => {
       });
     }, 1000);
 
-    adjustViewport();
-    window.addEventListener("resize", adjustViewport);
     window.scrollTo({ top: 0 });
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener("resize", adjustViewport);
     };
   }, []);
+
+  if (!phone) return null;
 
   return (
     <div className="container max-w-2xl mx-auto px-4 py-8">
@@ -64,15 +115,28 @@ const CodeVerification = () => {
 
       <p className="text-gray-500 mt-2">Введите код из SMS-сообщения</p>
 
+      {error && <div className="mt-4 text-red-500 text-sm">{error}</div>}
+
       <div className="mt-11">
-        <p className="text-center text-3xl font-semibold">+7 (000) 555-55-55</p>
+        <p className="text-center text-3xl font-semibold">
+          {formatPhoneNumber(phone)}
+        </p>
 
         <div className="mt-4 text-center">
-          <span className="underline cursor-pointer">
-            Отправить SMS повторно
-          </span>
-          {timerValue > 0 && (
-            <p className="text-black/70 mt-1">можно через {timerValue} сек.</p>
+          {timerValue > 0 ? (
+            <>
+              <span className="text-gray-500">Отправить SMS повторно</span>
+              <p className="text-gray-500 mt-1">
+                можно через {timerValue} сек.
+              </p>
+            </>
+          ) : (
+            <span
+              className="cursor-pointer text-black/90 underline"
+              onClick={resendCode}
+            >
+              Отправить SMS повторно
+            </span>
           )}
         </div>
 
@@ -86,9 +150,8 @@ const CodeVerification = () => {
               onChange={(e) => handleInput(e, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               ref={(el) => (inputRefs.current[index] = el)}
-              className={
-                "w-14 h-14 sm:w-16 sm:h-16 text-center text-lg border border-gray-300 rounded-lg focus:outline-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none mr-1 ml-1"
-              }
+              disabled={loading}
+              className="w-14 h-14 sm:w-16 sm:h-16 text-center text-lg border border-gray-300 rounded-lg focus:outline-gray-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none mr-1 ml-1"
             />
           ))}
         </div>
@@ -96,15 +159,16 @@ const CodeVerification = () => {
         <div className="flex flex-col items-center">
           <button
             className="w-full sm:w-auto sm:px-36 py-3 bg-black/85 text-white rounded-2xl disabled:opacity-50 mb-4"
-            disabled={code.length !== 4}
-            onClick={() => navigate("/register")}
+            disabled={code.length !== 4 || loading}
+            onClick={verifyCode}
           >
-            Подтвердить
+            {loading ? "Проверка..." : "Подтвердить"}
           </button>
 
           <button
             className="text-black/70 underline"
             onClick={() => navigate(-1)}
+            disabled={loading}
           >
             Изменить номер телефона
           </button>
