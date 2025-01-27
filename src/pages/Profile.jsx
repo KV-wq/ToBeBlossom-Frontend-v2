@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import PaymentCard from "../components/PaymentCard";
 import MyData from "../components/MyData";
 import WebApp from "@twa-dev/sdk";
+import { useAuthStore } from "../store/authStore";
 
 const Profile = () => {
   const navigate = useNavigate();
-
   const addPersonal = () => {
     navigate("/add-personal");
   };
+
+  const user = useAuthStore((state) => state.user);
 
   return (
     <div className="max-w-2xl mx-auto p-2 pt-5">
@@ -31,7 +33,7 @@ const Profile = () => {
           <div className="ml-4">
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-medium text-gray-900">
-                Иванов Иван Иванович
+                {user.fullname}
               </h1>
               <img
                 src="/assets/Icons/verified.svg"
