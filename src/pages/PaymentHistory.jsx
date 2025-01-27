@@ -27,38 +27,30 @@ const PaymentHistoryPage = () => {
   ];
 
   const withdrawals = [
-    {
-      id: 1,
-      amount: 38000,
-      date: "2024-01-01",
-      status: "completed",
-      account: "Сбербанк •••• 4567",
-      type: "individual",
-    },
-    {
-      id: 2,
-      amount: 45200,
-      date: "2024-01-11",
-      status: "processing",
-      account: "Тинькофф •••• 8901",
-      type: "person",
-    },
-    {
-      id: 3,
-      amount: 36800,
-      date: "2025-01-22",
-      status: "completed",
-      account: "Сбербанк •••• 4567",
-      type: "individual",
-    },
-    {
-      id: 4,
-      amount: 16800,
-      date: "2025-01-22",
-      status: "failed",
-      account: "ВТБ •••• 4567",
-      type: "person",
-    },
+    // {
+    //   id: 1,
+    //   amount: 38000,
+    //   date: "2024-01-01",
+    //   status: "completed",
+    //   account: "Сбербанк •••• 4567",
+    //   type: "individual",
+    // },
+    // {
+    //   id: 2,
+    //   amount: 45200,
+    //   date: "2024-01-11",
+    //   status: "processing",
+    //   account: "Тинькофф •••• 8901",
+    //   type: "person",
+    // },
+    // {
+    //   id: 3,
+    //   amount: 16800,
+    //   date: "2025-01-22",
+    //   status: "failed",
+    //   account: "ВТБ •••• 4567",
+    //   type: "person",
+    // },
   ];
 
   const statusLabels = {
@@ -158,7 +150,7 @@ const PaymentHistoryPage = () => {
         </select>
       </div>
 
-      <div className="space-y-3 overflow-auto h-[500px]">
+      <div className="space-y-3">
         {sortedWithdrawals.map((withdrawal) => (
           <div key={withdrawal.id} className="bg-white rounded-xl p-4">
             <div className="flex justify-between items-start">
@@ -193,7 +185,7 @@ const PaymentHistoryPage = () => {
       </div>
 
       {sortedWithdrawals.length === 0 && (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center text-lg py-8 text-gray-500">
           Нет операций за выбранный период
         </div>
       )}

@@ -95,7 +95,7 @@ const AddPromocode = () => {
       <input
         type="date"
         placeholder="Дата лимита действия"
-        value={limitDate}
+        value={"Действует до " + limitDate}
         onChange={(e) => setLimitDate(e.target.value)}
         className="bg-gray-50 border p-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full h-9 mb-2 text-center"
       />

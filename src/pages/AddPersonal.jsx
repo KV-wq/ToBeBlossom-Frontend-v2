@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 const Button = ({ text, onClick, className, isWhite }) => (
   <button
@@ -33,6 +34,8 @@ const AddPersonal = () => {
     navigate(-1);
   };
 
+  const user = useAuthStore((state) => state.user);
+
   return (
     <div className="bg-gray-50 rounded-2xl p-2 max-w-2xl mx-auto">
       <h2 className="text-2xl font-medium text-gray-900">Добавление счета</h2>
@@ -42,7 +45,7 @@ const AddPersonal = () => {
         <div>
           <label className="text-sm font-medium text-gray-700">ФИО</label>
           <input
-            value="Иванов Иван Иванович"
+            value={user.fullName}
             readOnly
             type="text"
             className="mt-2 w-full px-3 py-2 bg-gray-100 text-gray-900 rounded-xl border-0 outline-none"

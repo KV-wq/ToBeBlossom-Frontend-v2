@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuthStore } from "../store/authStore";
 
 const Button = ({ text, className, disabled, type = "button", onClick }) => (
   <button
@@ -14,6 +15,7 @@ const Button = ({ text, className, disabled, type = "button", onClick }) => (
 const MyData = () => {
   const [checked, setChecked] = useState(false);
   const [selectedType, setSelectedType] = useState("self_employed");
+  const user = useAuthStore((state) => state.user);
 
   const types = [
     { id: "self_employed", label: "Самозанятый" },
@@ -34,7 +36,9 @@ const MyData = () => {
         {/* ФИО */}
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-gray-700">Фамилия</label>
+            <label className="text-sm font-medium text-gray-700">
+              {user.fullName.split(" ")[0]}
+            </label>
             <input
               value="Иванов"
               readOnly
@@ -44,7 +48,9 @@ const MyData = () => {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-gray-700">Имя</label>
+            <label className="text-sm font-medium text-gray-700">
+              {user.fullName.split(" ")[1]}
+            </label>
             <input
               value="Иван"
               readOnly
@@ -55,7 +61,7 @@ const MyData = () => {
 
           <div>
             <label className="text-sm font-medium text-gray-700">
-              Отчество
+              {user.fullName.split(" ")[2]}
             </label>
             <input
               value="Иванович"
@@ -72,7 +78,7 @@ const MyData = () => {
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              defaultValue="ivanov@mail.ru"
+              defaultValue={user.email}
               className="mt-1 block w-full text-gray-800 text-lg rounded-2xl bg-white py-3 px-4 border border-gray-200 focus:outline-none focus:ring-2 transition-all duration-200 focus:ring-gray-700"
             />
           </div>
@@ -81,7 +87,7 @@ const MyData = () => {
             <label className="text-sm font-medium text-gray-700">Телефон</label>
             <input
               type="tel"
-              defaultValue="+7 (000) 555-55-55"
+              defaultValue={user.phone}
               className="mt-1 block w-full text-gray-800 text-lg rounded-2xl bg-white py-3 px-4 border border-gray-200 focus:outline-none focus:ring-2 transition-all duration-200 focus:ring-gray-700"
             />
           </div>
@@ -184,7 +190,7 @@ const MyData = () => {
         </label>
 
         <Button
-          text="Сохранить"
+          text="Изменить"
           className="!mb-12"
           disabled={!checked}
           type="submit"

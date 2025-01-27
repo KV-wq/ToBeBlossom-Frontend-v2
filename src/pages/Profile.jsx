@@ -57,11 +57,11 @@ const Profile = () => {
         <div className="flex justify-between items-center mb-4">
           <div>
             <p className="text-sm text-gray-500">Доступно к выводу</p>
-            <p className="text-2xl font-medium text-gray-900 mt-1">12 345 ₽</p>
+            <p className="text-2xl font-medium text-gray-900 mt-1">0 ₽</p>
           </div>
           <div className="text-right">
             <p className="text-sm text-gray-500">Скоро поступит</p>
-            <p className="text-2xl font-medium text-gray-900 mt-1">23 456 ₽</p>
+            <p className="text-2xl font-medium text-gray-900 mt-1">0 ₽</p>
           </div>
         </div>
 
@@ -73,6 +73,7 @@ const Profile = () => {
             История выплат
           </button>
           <button
+            disabled
             className="w-full sm:w-auto sm:px-36 py-3 bg-black/80 text-white rounded-2xl disabled:opacity-50"
             onClick={() => navigate("/payment-order")}
           >
@@ -86,16 +87,20 @@ const Profile = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-medium text-gray-900">Способы вывода</h2>
           <button
+            disabled
             onClick={addPersonal}
-            className="w-5/12 sm:w-auto sm:px-36 py-2 bg-white text-black border border-stone-600 rounded-2xl disabled:opacity-50"
+            className="w-5/12 sm:w-auto sm:px-36 py-2 bg-white text-black border border-stone-600 rounded-2xl disabled:border-stone-300 disabled:opacity-50"
           >
             Добавить
           </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <PaymentCard />
-          <PaymentCard />
+        <div className="grid grid-cols- gap-4">
+          {/* <PaymentCard />
+          <PaymentCard /> */}
+          <p className="text-center text-sm text-gray-700">
+            У вас нет добавленных способов вывода
+          </p>
         </div>
       </div>
 

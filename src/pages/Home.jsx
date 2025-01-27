@@ -1,13 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, Tooltip } from "recharts";
-import {
-  TrendingUp,
-  ShoppingCart,
-  RefreshCw,
-  Tag,
-  CheckCircle,
-} from "lucide-react";
+import { TrendingUp, ShoppingCart, RefreshCw, Tag } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
 
 const Button = ({ text, onClick, className, ...props }) => (
@@ -24,38 +18,38 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const salesData = [
-    { name: "Январь", sales: 40000 },
-    { name: "Февраль", sales: 55000 },
-    { name: "Март", sales: 45000 },
-    { name: "Апрель", sales: 65000 },
-    { name: "Май", sales: 50000 },
+    { name: "Январь", sales: 0 },
+    { name: "Февраль", sales: 0 },
+    { name: "Март", sales: 0 },
+    { name: "Апрель", sales: 0 },
+    { name: "Май", sales: 0 },
   ];
 
   const stats = {
     earnings: {
-      total: 1234567,
-      withdrawn: 234567,
-      returns: 234567,
-      pending: 234567,
-      soon: 234567,
+      total: 0,
+      withdrawn: 0,
+      returns: 0,
+      pending: 0,
+      soon: 0,
     },
     sales: {
-      orders: 17,
-      avgCheck: 23000,
-      upt: 1.7,
-      growth: 12.5,
+      orders: 0,
+      avgCheck: 0,
+      upt: 0,
+      growth: 0,
     },
     returns: {
-      full: 7,
-      partial: 3,
-      items: 12,
-      percentage: 5.6,
+      full: 0,
+      partial: 0,
+      items: 0,
+      percentage: 0,
     },
     promos: {
-      total: 7,
-      active: 2,
-      inactive: 3,
-      conversion: 23.4,
+      total: 0,
+      active: 0,
+      inactive: 0,
+      conversion: 0,
     },
   };
 
@@ -99,7 +93,7 @@ const HomePage = () => {
           width={290}
           height={100}
           data={salesData}
-          className="mx-auto"
+          className="mx-auto -translate-y-7"
         >
           <XAxis dataKey="name" hide />
           <Tooltip />

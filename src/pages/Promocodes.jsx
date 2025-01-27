@@ -39,9 +39,11 @@ const Promocodes = () => {
       />
 
       <div className="flex flex-col gap-5">
-        {[1, 2, 3].map((index) => (
-          <PromoCard key={index} promoId={index} />
-        ))}
+        {/* <PromoCard promoId={1} /> */}
+
+        <p className="text-gray-600 text-sm text-center mt-5">
+          Вы пока не создали ни одного промокода
+        </p>
       </div>
     </div>
   );
