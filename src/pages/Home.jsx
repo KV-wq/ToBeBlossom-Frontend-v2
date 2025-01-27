@@ -8,6 +8,7 @@ import {
   Tag,
   CheckCircle,
 } from "lucide-react";
+import { useAuthStore } from "../store/authStore";
 
 const Button = ({ text, onClick, className, ...props }) => (
   <button
@@ -60,6 +61,8 @@ const HomePage = () => {
 
   const formatMoney = (value) => value.toLocaleString() + " ₽";
 
+  const user = useAuthStore((state) => state.user);
+
   return (
     <div className="max-w-xl mx-auto p-2 bg-gray-50 min-h-screen">
       {/* Header */}
@@ -70,9 +73,7 @@ const HomePage = () => {
       {/* User Info */}
       <div className="flex items-center justify-between mb-8 bg-white rounded-2xl p-4 shadow-sm">
         <div>
-          <h1 className="text-xl font-medium text-gray-900">
-            Иванов Иван Иванович
-          </h1>
+          <h1 className="text-xl font-medium text-gray-900">{user.fullName}</h1>
           <p className="text-sm text-gray-500 mt-1">Стилист</p>
         </div>
         <img src="/assets/Icons/verified.svg" width={27} />

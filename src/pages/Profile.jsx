@@ -33,7 +33,7 @@ const Profile = () => {
           <div className="ml-4">
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-medium text-gray-900">
-                {user.fullname}
+                {user.fullName}
               </h1>
               <img
                 src="/assets/Icons/verified.svg"
