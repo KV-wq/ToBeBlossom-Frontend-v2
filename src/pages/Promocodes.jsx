@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PromoCard from "../components/PromoCard";
+import { usePromocodeStore } from "../store/promocodeStore";
 
 const Button = ({ text, onClick, className }) => (
   <button
@@ -13,6 +14,29 @@ const Button = ({ text, onClick, className }) => (
 
 const Promocodes = () => {
   const navigate = useNavigate();
+  const { promocodes, loading, error, fetchPromocodes } = usePromocodeStore();
+
+  useEffect(() => {
+    fetchPromocodes();
+  }, [fetchPromocodes]);
+
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto p-2">
+        <div className="flex items-center justify-center h-[200px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-2xl mx-auto p-2 text-center text-red-500">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-2">
@@ -39,11 +63,15 @@ const Promocodes = () => {
       />
 
       <div className="flex flex-col gap-5">
-        {/* <PromoCard promoId={1} /> */}
-
-        <p className="text-gray-600 text-sm text-center mt-5">
-          Вы пока не создали ни одного промокода
-        </p>
+        {promocodes.length > 0 ? (
+          promocodes.map((promocode) => (
+            <PromoCard key={promocode._id} promocode={promocode} />
+          ))
+        ) : (
+          <p className="text-gray-600 text-sm text-center mt-5">
+            Вы пока не создали ни одного промокода
+          </p>
+        )}
       </div>
     </div>
   );
