@@ -16,46 +16,46 @@ const Statistics = () => {
 
   const stats = {
     orders: {
-      total: 1654789,
-      count: 126,
-      avgCheck: 13133,
-      commission: 54789,
-      commissionPercent: 7.75,
-      growth: 12.5,
+      total: 0,
+      count: 0,
+      avgCheck: 0,
+      commission: 0,
+      commissionPercent: 0,
+      growth: 0,
     },
   };
 
   const orders = [
-    {
-      id: "123456789",
-      date: "23.01.25",
-      details: [
-        { type: "order", text: "3 товара • 14 231 ₽ • -7%" },
-        { type: "purchase", text: "Выкуп: 2 товара • 10 123 ₽" },
-        { type: "return", text: "Возврат: 1 товар • 4 123 ₽" },
-        { type: "payment", text: "Начислено: 2 123 ₽ (15%)" },
-      ],
-      status: "paid",
-      promoCode: "PROMO17",
-    },
-    {
-      id: "123456790",
-      date: "22.01.25",
-      details: [{ type: "order", text: "2 товара • 8 450 ₽ • -10%" }],
-      status: "processing",
-      promoCode: "PROMO10",
-    },
-    {
-      id: "234567901",
-      date: "11.01.25",
-      details: [
-        { type: "order", text: "3 товара • 10 231 ₽ • -7%" },
-        { type: "purchase", text: "Выкуп: 3 товара • 10 123 ₽" },
-        { type: "payment", text: "Начислено: 1 567 ₽ (15%)" },
-      ],
-      status: "paid",
-      promoCode: "PROMO19",
-    },
+    // {
+    //   id: "123456789",
+    //   date: "23.01.25",
+    //   details: [
+    //     { type: "order", text: "3 товара • 14 231 ₽ • -7%" },
+    //     { type: "purchase", text: "Выкуп: 2 товара • 10 123 ₽" },
+    //     { type: "return", text: "Возврат: 1 товар • 4 123 ₽" },
+    //     { type: "payment", text: "Начислено: 2 123 ₽ (15%)" },
+    //   ],
+    //   status: "paid",
+    //   promoCode: "PROMO17",
+    // },
+    // {
+    //   id: "123456790",
+    //   date: "22.01.25",
+    //   details: [{ type: "order", text: "2 товара • 8 450 ₽ • -10%" }],
+    //   status: "processing",
+    //   promoCode: "PROMO10",
+    // },
+    // {
+    //   id: "234567901",
+    //   date: "11.01.25",
+    //   details: [
+    //     { type: "order", text: "3 товара • 10 231 ₽ • -7%" },
+    //     { type: "purchase", text: "Выкуп: 3 товара • 10 123 ₽" },
+    //     { type: "payment", text: "Начислено: 1 567 ₽ (15%)" },
+    //   ],
+    //   status: "paid",
+    //   promoCode: "PROMO19",
+    // },
   ];
 
   const formatMoney = (value) => value.toLocaleString() + " ₽";
@@ -183,6 +183,11 @@ const Statistics = () => {
             </div>
           </div>
         ))}
+        {orders.length === 0 && (
+          <p className="text-lg mt-10 text-center text-gray-500">
+            Нет заказов для отображения.
+          </p>
+        )}
       </div>
     </div>
   );
