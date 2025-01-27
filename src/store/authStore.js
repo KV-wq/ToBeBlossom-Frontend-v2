@@ -32,18 +32,16 @@ export const useAuthStore = create((set) => ({
 
       if (token) {
         try {
-          // Проверяем валидность токена через API
           const { data } = await api.get("/auth/me");
           const telegramUser = WebApp.initDataUnsafe.user;
 
           set({
             user: data.user,
-            phone: data.user.phone, // Обновляем телефон из данных пользователя
+            phone: data.user.phone,
             isAuthenticated: true,
             loading: false,
           });
         } catch (error) {
-          // Если токен невалидный - очищаем хранилище
           localStorage.removeItem("token");
           localStorage.removeItem("phone");
           set({

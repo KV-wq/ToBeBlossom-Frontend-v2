@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import PhoneInput from "./pages/PhoneInput";
 import Verification from "./pages/Verification";
@@ -19,6 +19,7 @@ import { useAuthStore } from "./store/authStore";
 function App() {
   const { pathname } = useLocation();
   const initialize = useAuthStore((state) => state.initialize);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,6 +30,13 @@ function App() {
   }, [initialize]);
 
   const showMenu = !["/", "/verification", "/register"].includes(pathname);
+
+  if (
+    isAuthenticated &&
+    ["/", "/verification", "/register"].includes(pathname)
+  ) {
+    return <Navigate to="/home" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

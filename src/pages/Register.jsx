@@ -66,11 +66,11 @@ const Register = () => {
 
       const response = await authService.register(userData);
 
-      // Сохраняем данные пользователя в store
-      setUser(response.user);
+      localStorage.setItem("token", response.tokens.accessToken);
+      useAuthStore.getState().setUser(response.user, response.tokens);
 
       // Редирект на профиль
-      navigate("/profile");
+      navigate("/home");
     } catch (err) {
       setError(
         err.response?.data?.message || "Ошибка регистрации. Попробуйте позже"

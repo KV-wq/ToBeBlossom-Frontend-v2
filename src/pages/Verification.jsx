@@ -71,6 +71,11 @@ const CodeVerification = () => {
     try {
       const response = await authService.verifyCode(phone, code);
 
+      if (response.tokens) {
+        localStorage.setItem("token", response.tokens.accessToken);
+        useAuthStore.getState().setUser(response.user, response.tokens);
+      }
+
       if (response.isNewUser) {
         navigate("/register");
       } else {
