@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, Tooltip } from "recharts";
-import { TrendingUp, ShoppingCart, RefreshCw, Tag } from "lucide-react";
+import { TrendingUp, ShoppingCart, RefreshCw, Tag, Wallet } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
+import { usePromocodeStore } from "../store/promocodeStore";
 
 const Button = ({ text, onClick, className, ...props }) => (
   <button
@@ -16,6 +17,17 @@ const Button = ({ text, onClick, className, ...props }) => (
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { promocodes, fetchPromocodes, loading } = usePromocodeStore();
+
+  useEffect(() => {
+    fetchPromocodes();
+  }, [fetchPromocodes]);
+
+  const promoStats = {
+    total: promocodes.length,
+    active: promocodes.filter((promo) => promo.status.isActive).length,
+    inactive: promocodes.filter((promo) => !promo.status.isActive).length,
+  };
 
   const salesData = [
     { name: "Сентябрь", sales: 0 },
@@ -45,12 +57,6 @@ const HomePage = () => {
       partial: 0,
       items: 0,
       percentage: 0,
-    },
-    promos: {
-      total: 0,
-      active: 0,
-      inactive: 0,
-      conversion: 0,
     },
   };
 
@@ -110,31 +116,40 @@ const HomePage = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        {/* Main Stats */}
-        <div className="bg-white rounded-2xl p-4 sm:col-span-2 shadow-sm">
-          <div className="flex justify-between px-1">
-            <div>
-              <span className="text-sm text-gray-500 flex items-center">
-                <ShoppingCart className="mr-2 w-4 h-4 text-blue-500" />
-                Начислено всего
+        {/* Sales Stats */}
+        <div className="bg-white rounded-2xl p-4 shadow-sm">
+          <h3 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+            <Wallet className="mr-2 w-5 h-5 text-green-500" />
+            Баланс
+          </h3>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-500">
+                Скоро будет начислено
               </span>
-              <p className="text-xl font-medium text-gray-900">
-                {formatMoney(stats.earnings.total)}
-              </p>
+              <span className="text-sm font-medium text-gray-900">0 ₽</span>
             </div>
-            <div className="text-right">
-              <span className="text-sm text-gray-500 flex items-center justify-end">
-                <RefreshCw className="mr-2 w-4 h-4 text-green-500" />
-                Доступно к выводу
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-500">
+                Начислено за все время
               </span>
-              <p className="text-xl font-medium text-gray-900">
-                {formatMoney(stats.earnings.pending)}
-              </p>
+              <span className="text-sm font-medium text-gray-900">0 ₽</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-500">
+                Выведено за все время
+              </span>
+              <span className="text-sm font-medium text-gray-900">0 ₽</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-500">
+                Доступно к выводу сейчас
+              </span>
+              <span className="text-sm font-medium text-green-600">0 ₽</span>
             </div>
           </div>
         </div>
 
-        {/* Sales Stats */}
         <div className="bg-white rounded-2xl p-4 shadow-sm">
           <h3 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
             <ShoppingCart className="mr-2 w-5 h-5 text-blue-500" />
@@ -172,19 +187,19 @@ const HomePage = () => {
             <div className="flex justify-between">
               <span className="text-sm text-gray-500">Всего</span>
               <span className="text-sm font-medium text-gray-900">
-                {stats.promos.total}
+                {promoStats.total || 0}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-gray-500">Активных</span>
               <span className="text-sm font-medium text-green-600">
-                {stats.promos.active}
+                {promoStats.active || 0}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-gray-500">Неактивных</span>
               <span className="text-sm font-medium text-gray-900">
-                {stats.promos.inactive}
+                {promoStats.inactive || 0}
               </span>
             </div>
           </div>

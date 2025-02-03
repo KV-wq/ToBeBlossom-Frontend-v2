@@ -55,7 +55,7 @@ const CodeVerification = () => {
     setError("");
     try {
       await authService.sendVerificationCode(phone);
-      setTimerValue(45);
+      setTimerValue(0);
       setDigits(["", "", "", ""]);
       setCode("");
     } catch (err) {

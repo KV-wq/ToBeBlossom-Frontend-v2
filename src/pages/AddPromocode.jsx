@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePromocodeStore } from "../store/promocodeStore";
+import DateInput from "../components/DateInput";
 
 const Button = ({ text, onClick, className, isWhite, disabled }) => (
   <button
@@ -146,8 +147,8 @@ const AddPromocode = () => {
         disabled={loading}
       />
 
-      <div className="mb-6 mt-4 flex gap-3">
-        <div className="w-full rounded-xl border border-black/85 px-3 py-1">
+      <div className="mb-6 mt-4 flex">
+        <div className="w-full rounded-xl border border-black/85 px-3 py-1 mr-2">
           <p>Ваш доход</p>
           <p className="text-lg font-semibold">{range}%</p>
         </div>
@@ -157,22 +158,29 @@ const AddPromocode = () => {
         </div>
       </div>
 
-      <input
+      {/* <input
         type="date"
         min={minDate}
         value={limitDate}
         onChange={(e) => setLimitDate(e.target.value)}
         className="bg-gray-50 border p-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full h-9 mb-2 text-center"
         disabled={loading}
+      /> */}
+
+      <DateInput
+        value={limitDate}
+        onChange={(e) => setLimitDate(e.target.value)}
+        min={minDate}
+        disabled={loading}
       />
 
-      <input
+      <textarea
         type="text"
         placeholder="Заметки для себя"
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
         maxLength={200}
-        className="bg-gray-50 border p-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full h-9 mb-2 text-center"
+        className="bg-gray-50 border p-2 border-gray-500 text-gray-900 text-sm rounded-lg block w-full h-16 mb-2 text-center"
         disabled={loading}
       />
 

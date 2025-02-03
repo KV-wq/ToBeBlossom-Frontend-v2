@@ -67,6 +67,7 @@ const Profile = () => {
 
         <div className="grid grid-rows-1 gap-4">
           <button
+            disabled
             className="w-full sm:w-auto sm:px-36 py-3 bg-white text-black border border-stone-600 rounded-2xl disabled:opacity-50"
             onClick={() => navigate("/payment-history")}
           >

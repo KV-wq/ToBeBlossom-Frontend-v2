@@ -13,3 +13,26 @@ input[type="range"]::-moz-range-thumb {
 input[type="range"]::-ms-thumb {
   @apply appearance-none w-9 h-9 bg-gray-900 rounded-full;
 }
+
+.react-datepicker {
+  font-family: inherit !important;
+}
+
+.react-datepicker__header {
+  background-color: white !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: black !important;
+  color: white !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: #f3f4f6 !important;
+}
+
+.react-datepicker__day--disabled {
+  color: #9ca3af !important;
+}

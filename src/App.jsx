@@ -50,13 +50,13 @@ function App() {
       <main className="container mx-auto px-4 py-8 relative">
         {showMenu && <Menu />}
         <Routes>
-          <Route path="/" element={<Statistics />} />
+          <Route path="/" element={<PhoneInput />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/register" element={<Register />} />
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/statistics" element={<Statistics x />} />
+            <Route path="/statistics" element={<Statistics />} />
             <Route path="/promocodes" element={<Promocodes />} />
             <Route path="/add-promocode" element={<AddPromocode />} />
             <Route path="/payment-history" element={<PaymentHistory />} />
